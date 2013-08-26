@@ -27,6 +27,7 @@ end
 bash "known host for github" do
 	code "ssh-keyscan -H github.com >> /home/admin/.ssh/known_hosts"
 	user "admin"
+	not_if "su admin --c 'ssh-keygen -F github.com | grep -q \'github\.com\''"
 end
 
 cookbook_file "/home/admin/.ssh/github.id_rsa" do
