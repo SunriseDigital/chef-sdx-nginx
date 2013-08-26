@@ -1,0 +1,44 @@
+server {
+    listen       80;
+
+    server_name  <%= @server_name %>;
+    root   <%= @base_dir %>/web;
+    access_log  <%= @base_dir %>/logs/access.log;
+    error_log  <%= @base_dir %>/logs/error.log;
+    index  index.php index.html index.htm;
+
+    location /m/ {
+        try_files $uri @mobile;
+    }
+
+    location /sp/ {
+        try_files $uri @sp;
+    }
+
+    try_files $uri @default;
+
+    location @mobile {
+        fastcgi_pass   127.0.0.1:9000;
+        fastcgi_param  SCRIPT_FILENAME <%= @base_dir %>/web/mobile_index.php;
+        include fastcgi_params;
+    }
+
+    location @sp {
+        fastcgi_pass   127.0.0.1:9000;
+        fastcgi_param  SCRIPT_FILENAME <%= @base_dir %>/web/sp_index.php;
+        include fastcgi_params;
+    }
+
+    location @default {
+        fastcgi_pass   127.0.0.1:9000;
+        fastcgi_param  SCRIPT_FILENAME <%= @base_dir %>/web/index.php;
+        include fastcgi_params;
+    }
+
+    location ~ \.php$ {
+        fastcgi_pass   127.0.0.1:9000;
+        fastcgi_index  index.php;
+        fastcgi_param  SCRIPT_FILENAME  <%= @base_dir %>/web$fastcgi_script_name;
+        include        fastcgi_params;
+    }
+}
