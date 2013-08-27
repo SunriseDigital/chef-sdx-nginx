@@ -1,0 +1,1 @@
+default['sdx-nginx']['dir'] = '/home/source/sites'

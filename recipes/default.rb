@@ -98,7 +98,7 @@ node['sdx-nginx']['repos'].each do |repos|
 		repository repos.git
 		user "admin"
 		group "admin"
-		reference "master"
+		reference (repos.branch || "master")
 		action :sync
 	end
 	repos.servers.each do |server|
