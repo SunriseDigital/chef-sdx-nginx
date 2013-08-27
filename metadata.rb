@@ -1,6 +1,6 @@
 name             'sdx-nginx'
-maintainer       'YOUR_COMPANY_NAME'
-maintainer_email 'YOUR_EMAIL'
+maintainer       'Sunrise Digital'
+maintainer_email 'miyata@able.ocn.ne.jp'
 license          'All rights reserved'
 description      'Installs/Configures sdx-nginx'
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
