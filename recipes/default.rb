@@ -7,57 +7,6 @@
 # All rights reserved - Do Not Redistribute
 #
 
-
-#create admin
-#openssl passwd -1 "admin"
-user "admin" do
-	comment "Admin user"
-	home "/home/admin"
-	shell "/bin/bash"
-	password "$1$XhfNJoLH$lyY/n2WgnXQQaLVacEwzC/"
-	supports :manage_home => true, :non_unique => false
-end
-
-directory "/home/admin/.ssh" do
-	owner "admin"
-	group "admin"
-	mode 0700
-end
-
-bash "known host for github" do
-	code "ssh-keyscan -H github.com >> /home/admin/.ssh/known_hosts"
-	user "admin"
-	not_if "su admin --c 'ssh-keygen -F github.com | grep -q \'github\.com\''"
-end
-
-cookbook_file "/home/admin/.ssh/github.id_rsa" do
-	source "github.id_rsa"
-	mode 0600
-	owner "admin"
-	group "admin"
-end
-
-template '/home/admin/.ssh/config' do
-	action 'create_if_missing'
-	source 'ssh.config.erb'
-	owner 'admin'
-	group 'admin'
-	mode 0600
-end
-
-#Config for git
-template '/home/admin/.gitconfig' do
-	action 'create_if_missing'
-	source 'gitconfig.erb'
-	owner 'admin'
-	group 'admin'
-	mode 0644
-	variables(
-		:email => node['sdx-nginx']['git_email'],
-		:name => node['sdx-nginx']['git_name']
-	)
-end
-
 #setup sdx
 directory node['sdx-nginx']['dir'] do
 	owner "admin"
