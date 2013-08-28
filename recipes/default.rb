@@ -105,5 +105,5 @@ node['sdx-nginx']['repos'].each do |repos|
 end
 
 service 'nginx' do
-  action [:start :restart]
+  action [:start, :restart]
 end
